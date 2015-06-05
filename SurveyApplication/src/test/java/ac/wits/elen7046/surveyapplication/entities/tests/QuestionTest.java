@@ -2,9 +2,7 @@ package ac.wits.elen7046.surveyapplication.entities.tests;
 
 
 import ac.wits.elen7046.surveyapplication.entities.Question;
-import ac.wits.elen7046.surveyapplication.entities.Response;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -52,6 +50,7 @@ public class QuestionTest {
     @Before
     public void setUp() {
         this.question = new Question();
+        
     }
     
     /**
@@ -67,31 +66,20 @@ public class QuestionTest {
      */
     @Test
     public void testQuestion() {
-        long id = 1;
-        question.setId(id);
+        long id = System.currentTimeMillis();
         assertEquals(question.getId(), id);
         
         String description = "This is a question";
-        question.setDescription(description);
-        assertEquals(question.getDescription(), description);
+        question.setText(description);
+        assertEquals(question.getText(), description);
        
-        Response response = new Response();
-        long _id = 1;
-        response.setId(_id);
-        assertEquals(response.getId(), _id);
-        String _description = "This is a response";
-        response.setDescription(_description);
-        List<Response> responses = new ArrayList<Response>();
-        responses.add(response);
-        question.setResponses(responses);
-        assertEquals(responses, question.getResponses());
+
         
         Question otherQuestion = new Question();
-        otherQuestion.setId(id);
-        otherQuestion.setDescription(description);
+        otherQuestion.setText(description);
         assertEquals(question, otherQuestion);
         
-        otherQuestion.setDescription("This is another question");
+        otherQuestion.setText("This is another question");
         assertFalse(question.equals(otherQuestion));     
     }
 }

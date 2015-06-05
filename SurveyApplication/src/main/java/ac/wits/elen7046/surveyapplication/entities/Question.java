@@ -1,13 +1,14 @@
 package ac.wits.elen7046.surveyapplication.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
  *
  * @author Ronald Menya
  */
+@XmlRootElement
 public class Question {
 
     /**
@@ -18,25 +19,14 @@ public class Question {
     /**
      * 
      */
-    private String description;
-    
-    /**
-     * 
-     */
-    private List<Response> responses;
-    
-    /**
-     * 
-     * @param  
-     */
-    public void setId(long id) {
-        if (id <= 0 ) {
-           throw new RuntimeException("ID must be greater than 0");
-        }
-        
-        this.id = id;
-    }
+    private String text;
 
+    private QuestionType questionType;
+    
+    public Question () {
+        this.id = System.currentTimeMillis();
+    }
+    
     /**
      * 
      * @return 
@@ -49,37 +39,31 @@ public class Question {
      * 
      * @param 
      */
-    public void setDescription(String description) {
-        if (description == null || description.length() == 0) {
+    public void setText(String text) {
+        if (text == null || text.length() == 0) {
             throw new RuntimeException("description can not be null or empty.");
         }
         
-        this.description = description;
+        this.text = text;
     }
 
     /**
      * 
      * @return 
      */
-    public String getDescription() {
-        return this.description;
-    }
-    
-    /**
-     * 
-     * @param 
-     */ 
-    public void setResponses(List<Response> responses) {
-        this.responses = responses;    
+    public String getText() {
+        return this.text;
     }
 
-    /**
-     * 
-     * @return  
-     */ 
-    public List<Response> getResponses() {
-        return this.responses;
+    public QuestionType getQuestionType() {
+        return questionType;
     }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+    
+    
     /**
      * 
      * @return 
@@ -106,7 +90,7 @@ public class Question {
         if (this.id != other.id) {
             return false;
         }
-        if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+        if ((this.text == null) ? (other.text != null) : !this.text.equals(other.text)) {
             return false;
         }
         return true;
@@ -118,6 +102,6 @@ public class Question {
      */
     @Override
     public String toString() {
-        return "Question{" + "id=" + id + ", description=" + description + '}';
+        return "Question{" + "id=" + id + ", description=" + text + '}';
     }
 }
