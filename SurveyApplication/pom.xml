@@ -10,6 +10,12 @@
   <name>SurveyApplication</name>
   <url>http://maven.apache.org</url>
 
+  <repositories>
+      <repository>
+           <id>JBoss repository</id>
+           <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+      </repository>
+  </repositories>  
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -22,6 +28,36 @@
       <artifactId>jsp-api</artifactId>
       <version>2.1</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.10</version>
+    </dependency>
+    <dependency>
+	<groupId>javax.enterprise</groupId>
+	<artifactId>cdi-api</artifactId>
+	<version>1.0-SP1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-moxy</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongo-java-driver</artifactId>
+        <version>2.12.3</version>
     </dependency>
   </dependencies>
 
