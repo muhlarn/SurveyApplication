@@ -21,7 +21,14 @@ public class Question {
      */
     private String text;
 
-    private QuestionType questionType;
+    /**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	private QuestionType questionType;
     
     public Question () {
         this.id = System.currentTimeMillis();

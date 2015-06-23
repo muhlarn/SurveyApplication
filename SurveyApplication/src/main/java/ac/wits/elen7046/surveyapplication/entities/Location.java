@@ -7,6 +7,7 @@ package ac.wits.elen7046.surveyapplication.entities;
  */
 public class Location {
     
+	private double id;
     private double latitude;
     private double longitude;
 
@@ -18,7 +19,21 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    /**
+	 * @return the id
+	 */
+	public double getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(double id) {
+		this.id = id;
+	}
+
+	public double getLongitude() {
         return longitude;
     }
 

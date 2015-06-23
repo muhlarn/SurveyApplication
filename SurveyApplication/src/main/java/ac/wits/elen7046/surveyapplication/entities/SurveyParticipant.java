@@ -5,18 +5,22 @@ package ac.wits.elen7046.surveyapplication.entities;
  *
  * @author Ronald Menya
  */
-public abstract class SurveyParticipant {
+public class SurveyParticipant {
     
     protected long id;
     private String firstname;
     private String lastname;
     private int age;
     
-    public SurveyParticipant() {
-        id = System.currentTimeMillis();
-    }      
 
-    public long getId() {
+    /**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getId() {
         return id;
     }
 
