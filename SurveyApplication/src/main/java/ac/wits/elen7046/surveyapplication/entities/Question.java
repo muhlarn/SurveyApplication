@@ -1,6 +1,8 @@
 package ac.wits.elen7046.surveyapplication.entities;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -20,6 +22,7 @@ public class Question {
      * 
      */
     private String text;
+    private List<String> options;
 
     /**
 	 * @param id the id to set
@@ -110,5 +113,13 @@ public class Question {
     @Override
     public String toString() {
         return "Question{" + "id=" + id + ", description=" + text + '}';
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public List<String> getOptions() {
+        return this.options;
     }
 }
