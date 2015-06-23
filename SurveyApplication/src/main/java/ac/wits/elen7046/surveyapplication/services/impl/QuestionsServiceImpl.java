@@ -5,19 +5,14 @@
  */
 package ac.wits.elen7046.surveyapplication.services.impl;
 
+
 import ac.wits.elen7046.surveyapplication.entities.Question;
+import ac.wits.elen7046.surveyapplication.entities.QuestionType;
 import ac.wits.elen7046.surveyapplication.services.QuestionsService;
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,12 +23,31 @@ public class QuestionsServiceImpl implements QuestionsService{
     private Map<Long, Question> questions = questions = new HashMap<Long, Question>();
     
     public QuestionsServiceImpl() {
-        Question question1 = new Question();
-        question1.setText("This is question 1");
-        Question question2 = new Question();
-        question2.setText("This is question 2");
-        questions.put(question1.getId(), question1);
-        questions.put(question2.getId(), question2);
+        for (int i = 1; i < 10; i++) {
+            Question question = new Question();
+            
+            if (i % 2 == 0) { 
+               question.setQuestionType(QuestionType.TEXT);   
+               question.setOptions(new ArrayList<String>());
+               
+            } else {
+               question.setQuestionType(QuestionType.MULTIPLE_CHOICE);
+               ArrayList<String> options = new ArrayList<String>();
+               options.add("option 1");
+               options.add("option 2");
+               options.add("option 3");
+               question.setOptions(options);
+            }
+            
+            question.setId(i);
+            question.setText("This is question " + i);
+            questions.put(question.getId(), question);
+            System.out.println("XXXXXXXXXXXXXX: " + question.getOptions());
+        }
+        
+        Question question = new Question();
+        question.setQuestionType(QuestionType.YES_NO);   
+        question.setOptions(new ArrayList<String>());
     }
 
     public List<Question> getAll() {
@@ -47,6 +61,7 @@ public class QuestionsServiceImpl implements QuestionsService{
     }
 
     public Question addQuestion(Question question) {
+        question.setId(questions.size() + 1);
         return questions.put(question.getId(), question);
                 
     }
@@ -60,19 +75,8 @@ public class QuestionsServiceImpl implements QuestionsService{
     }
     
     public static void main(String[] args) {
-        MongoClient mongoClient = null;
-        
-        try {
-            mongoClient = new MongoClient("localhost", 27017);
-            DB db = mongoClient.getDB("Survey_APP_DB");
-            List<String> dbs = mongoClient.getDatabaseNames();
-            System.out.println("DBs: " + dbs);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(QuestionsServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (mongoClient != null) {
-                mongoClient.close();
-            }
-        }
+        QuestionsService questionsService = new QuestionsServiceImpl();
+        List<Question> questions = questionsService.getAll();
+        System.out.println("" + questions);
     }
 }

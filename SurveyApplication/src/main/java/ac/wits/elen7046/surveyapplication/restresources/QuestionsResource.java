@@ -32,7 +32,7 @@ public class QuestionsResource implements Serializable {
     
     @GET
     public List<Question> getAll() {
-        logger.info("Getting all questions");
+        logger.info("Getting all questions: " + questionsService.getAll());
         return questionsService.getAll();
     }
     

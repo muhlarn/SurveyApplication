@@ -11,7 +11,6 @@ import java.util.List;
  */
 public interface QuestionsService {
     
-    
     public List<Question> getAll();
     public Question getQuestion(long questionId);
     public Question addQuestion(Question question);
