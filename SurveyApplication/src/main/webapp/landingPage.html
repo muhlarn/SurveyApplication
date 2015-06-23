@@ -1,60 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-      <title>Bootstrap Case</title>
+      <title>ELEN7046</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="bootstrap.min.css">
+      <link rel="stylesheet" href="datepicker.css">
+      <link rel="stylesheet" href="daterangepicker-bs3.css">
+      <link rel="stylesheet" href="popup.css">
+      <link rel="stylesheet" href="technologiesAndTopic.css">
+      <script src="themes/dark-green.js"></script>
       <script src="jquery.min.js"></script>
       <script src="bootstrap.min.js"></script>
+      <script src="moment.min.js"></script>         
       <script src="highcharts.js"></script>
-      <script src="highmaps.js"></script>
-      <script src="angular.min.js"></script>
-      <script>
-          var surveyApp = angular.module("SurveyApp", []);
-          surveyApp.controller("getAllQuestions", function($http, $scope) {
-              $http.get('http://localhost:8084/SurveyApplication/resources/questions/').
-                success(function(data, status, headers, config) {
-                  // this callback will be called asynchronously
-                  // when the response is available
-                  alert("" + data);
-                }).
-                error(function(data, status, headers, config) {
-                  // called asynchronously if an error occurs
-                  // or server returns response with an error status.
-                });
-          });
-      </script>
+      <script src="highcharts-more.js"></script>
+      <script src="daterangepicker.js"></script>
+      <script src="SurveyAdmin.js"></script>
+      <script src="SurveyTaker.js"></script>
+      <script src="Reports.js"></script>
+      <script src="tags.js"></script>
+      <script src="vTag.js"></script>
     </head>
-    <body ng-app="SurveyApp">
-        <div class="container">
-          <br/>
-          <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#Administration">Administration</a></li>
-            <li><a data-toggle="tab" href="#Survey">Survey</a></li>
-            <li><a data-toggle="tab" href="#Reports">Reports</a></li>
-          </ul>
+    <body>
+        
+        <div class="container" id="main_container">
+            <img src="WITS_LOGO.jpg" width="100" height="100" align="center"/>
+            <fieldset>
+                <legend>ELEN7046 Course Project 2015: Survey Application</legend>
+                <div>
+                    <label for="groupid">Developed by: Group INTEL</label>
+                </div>
+            </fieldset>
+            <br/>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#Administration">Administration</a></li>
+                <li><a data-toggle="tab" href="#survey-container">Survey</a></li>
+                <li><a data-toggle="tab" href="#Reports">Reports</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="Administration" class="tab-pane fade in active">
+                    <br/><br/>
+                    <div class="btn-group btn-group-justified">
+                        <a href="javascript:void(0);" onclick="getAllQuestion();" class="btn btn-primary">View All Questions</a> 
+                        <a href="javascript:void(0);" onclick="viewCreateQuestionPanel();" class="btn btn-primary">Create Question</a>
+                        <a href="javascript:void(0);" onclick="viewUpdateQuestionPanel();" class="btn btn-primary">Update Question</a>
+                        <a href="javascript:void(0);" onclick="viewDeleteQuestionPanel();" class="btn btn-primary">Delete Question</a>
+                    </div>
+                    <br/> <br/> 
+                    <div class="form-group" id="admin-container">
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="survey-container">
+                    <br/>  
+                    <label for="date">Date:</label>
+                    <input id="surveydate" type="text" name="surveydate" value="" />
+                    <script type="text/javascript">
+                            $(function() {
+                                $('input[name="surveydate"]').daterangepicker({
+                                format: 'DD/MM/YYYY',    
+                                singleDatePicker: true,
+                                showDropdowns: true
+                            },
+                            function(start, end, label) {
+                                var years = moment().diff(start, 'years');
+                            });
+                            });
+                    </script>     
+                    <br/><br/>    
+                    <fieldset>
+                        <legend>Surveyor</legend>
+                        <div class="col-xs-6">
+                            <label for="firstname">Firstname:</label> <input type="text" class="form-control" id="firstname" maxlength="10">
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="lastname">Lastname:</label> <input type="text" class="form-control" id="lastname" maxlength="10">
+                        </div>
+                    </fieldset>
+                    <br/>
+                    <fieldset>
+                        <legend>Location</legend>
+                        <div class="dropdown">
+                            &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary dropdown-toggle" type="button" id="country" data-toggle="dropdown">Country
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                              <li role="presentation"><a role="menuitem" tabindex="-1" href="#"></a>South Africa</li>
+                              <li role="presentation" class="divider"></li>
+                            </ul>
+                        </div>
+                        <br/>
+                        <div class="col-xs-6">
+                            <label for="state">State/Province:</label> <input type="text" class="form-control" id="state" maxlength="10">
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="city">City:</label> <input type="text" class="form-control" id="city" maxlength="10">
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="suburb">Suburb:</label> <input type="text" class="form-control" id="suburb" maxlength="10">
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="street-address">Street Address:</label> <input type="text" class="form-control" id="street-address" maxlength="10">
+                        </div>
+                        <div class="col-xs-6">
+                            <label for="code">Code:</label> <input type="text" class="form-control" id="code" maxlength="10">
+                        </div>
+                    </fieldset>
+                    <br/>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button"  class="btn btn-primary pull-right" onclick="startSurvey();">Start Survey</button>
+                    </div>
+                </div>    
+                <div class="tab-pane fade" id="Reports" >
+                    <div class="form-group pull-left">
+                        <div id="bubbles_container" style="width: 50%; height: 500px; margin: 0 auto;"></div>
+                        <div id="pop-up" >
+                            <div id="hot_topics_container" style="width: 900px; height: 505px; margin: 0 auto;">
 
-          <div class="tab-content">
-            <div id="Administration" class="tab-pane fade in active">
-                <br/> <br/> <br/>
-                <div class="btn-group-vertical">
-                  <button type="button" class="btn btn-link">Create Question</button>
-                  <button type="button" class="btn btn-link">Update Question</button>
-                  <button type="button" class="btn btn-link">Delete Question</button>
+                            </div>
+                                <div >
+                                        <button type="submit" id="popupBoxClose" onclick="unloadPopupBox()"  >
+                                                <img src="cancel.jpg" width="13" height="13" alt="submit" />
+                                        </button>			
+                            </div>
+                        </div>   
+                    </div>
                 </div>
             </div>
-              <div id="Survey" class="tab-pane fade" ng-controller="getAllQuestions">
-                <br/> <br/> <br/>  
-                <p>Click the Start button below, to begin survey.</p>
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default" ng-click="getAllQuestions">Start</button>
-                </div>
-            </div>
-            <div id="Reports" class="tab-pane fade">
-
-            </div>
-          </div>
-        </div>
+            <div class="form-group pull-center" id="technologies-pop-up" style="display:none;">	
+	</div>
+        </div>  
+        
+        <script type="text/javascript">
+                        function load(){
+                            loadBubbles();      
+                        }
+                        load();
+                   </script>
     </body>
 </html>
