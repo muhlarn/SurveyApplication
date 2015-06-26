@@ -100,7 +100,7 @@ function loadBubbles() {
                 text: _title
             },
             xAxis: {
-                categories: ['Gauteng', 'Limpopo', 'Kwazulu-Natal', 'Mpumalanga', 'North-West']
+                categories: ['Gauteng', 'Limpopo', 'Kwazulu-Natal', 'Mpumalanga']
             },
             tooltip: {
                 formatter: function() {
@@ -118,39 +118,18 @@ function loadBubbles() {
             series: [{
                 type: 'column',
                 name: 'Province',
-                data: [4, 3, 3, 9, 0]
+                data: [6, 3, 3, 9, 0,]
             }, {
                 type: 'spline',
                 name: 'Average',
-                data: [3, 2.67, 3, 6.33, 3.33],
+                data: [6, 2.67, 3, 6.33, 3.33],
                 marker: {
                 	lineWidth: 2,
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            }, {
-                type: 'pie',
-                name: 'Total counts',
-                data: [{
-                    name: 'Swing',
-                    y: 13,
-                    color: Highcharts.getOptions().colors[0] 
-                }, {
-                    name: 'Exceptions',
-                    y: 23,
-                    color: Highcharts.getOptions().colors[1] 
-                }, {
-                    name: 'Collections',
-                    y: 19,
-                    color: Highcharts.getOptions().colors[2] 
-                }],
-                center: [100, 80],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
+            }, 
+        ]
         });
     });
 	} 

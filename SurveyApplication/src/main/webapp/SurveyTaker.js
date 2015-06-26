@@ -1,16 +1,16 @@
-var data;
+var data = [];
 var counter = 0;
 var survey = {"creationDate":"",
                 "id":0,
                 "location":{"latitude":0,"longitude":0},
-                "name":"name1",
+                "name":"WITS Survey",
                 "questions":[],
                 "questionsToAnswersMapping":{"entry":[]},
-                "respondent":{"age":0,"firstname":"xxx","lastname":"xxxx"},
-                "surveyor":{"age":0,"firstname":"xxxxx","lastname":"xxxx"},
-                "version":0.0
+                "respondent":{"age":0,"firstname":"Ronald","lastname":"Menya"},
+                "surveyor":{"age":0,"firstname":"John","lastname":"Doe"},
+                "version":1.0
               };
-              
+var surveys = [];              
 var allQuestions = function () {    
     jQuery.ajax({
         url: "http://localhost:8080/SurveyApplication/resources/questions/",
@@ -20,14 +20,17 @@ var allQuestions = function () {
             data = resultData;
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert(textStatus + ": " + errorThrown);
+            data = JSON.parse(localStorage["questions"]);
+            
         },
 
         timeout: 120000,
     });
-}();
+};
 
 function startSurvey() {
+    allQuestions();
     var inputs = document.getElementsByTagName("input");
     
     for (var i = 0; i < inputs.length; i++) {
@@ -73,20 +76,26 @@ function nextQuestion() {
     
 }
 
-function getYesNoTemplate() {
+function getYesNoTemplate(question) {
     var template = "<div class=\"radio\"><label><input type=\"radio\" name=\"optradio\">Yes</label></div>"
                  + "<div class=\"radio\"><label><input type=\"radio\" name=\"optradio\">No</label></div>";
     return template;
 }
 
-function getOptionsTemplate() {
-    var template = "<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">Option 1</label>"
+function getOptionsTemplate(question) {
+    var options = question.options;
+    var template = "";
+    for (var i = 0; i < options.length; i++) {
+        template = template + "<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">" + options[i] + "</label></div>"
+    }
+    
+    /*var template = "<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">Option 1</label>"
                  + "</div><div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">Option 2</label>"
-                 + "</div><div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">Option 3</label></div>";
+                 + "</div><div class=\"checkbox\"><label><input type=\"checkbox\" value=\"\">Option 3</label></div>";*/
     return template;
 }
 
-function getTextTemplate() {
+function getTextTemplate(question) {
     var input = "<label for=\"comment\">Answer:</label><textarea class=\"form-control\" rows=\"2\"  id=\"comment\"></textarea>";
     return input;
 }
@@ -98,17 +107,21 @@ function submitSurvey() {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(survey),
         success: function(resultData) {
-            
+            surveys.push(survey);
+            localStorage["surveys"] = JSON.stringify(resultData);
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert(textStatus + ": " + errorThrown);
+            surveys.push(survey);
+            localStorage["surveys"] = JSON.stringify(resultData);
+            var _surveys = JSON.parse(localStorage["surveys"]);
+            
         },
 
         timeout: 120000,
     });
     
     var content = getSurveyConfigPage();
-    alert(content);
     document.getElementById("survey-container").innerHTML = content;
 }
 

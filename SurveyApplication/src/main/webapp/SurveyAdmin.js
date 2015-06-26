@@ -7,22 +7,30 @@ function getAllQuestion() {
         type: "GET",
         contentType: 'application/json; charset=utf-8',
         success: function(resultData) {
-            var table = "<table class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
-            var questionNumber = 1;
-            for (var i = 0; i < resultData.length; i++) {
-                table = table + "<tr><td>" + questionNumber + "</td><td>" + resultData[i].text + "</td></tr>";
-                questionNumber++;
-            }
-
-            table = table + "</tbody></table>";
-            document.getElementById("admin-container").innerHTML = table;
+            localStorage["questions"] = JSON.stringify(resultData);
+            getAllQuestionHelper(resultData);
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert(textStatus + ": " + errorThrown);
+            var data = JSON.parse(localStorage["questions"]);
+            getAllQuestionHelper(data);
         },
 
         timeout: 120000,
     });
+}
+
+function getAllQuestionHelper(data) {
+    var table = "<table class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
+    var questionNumber = 1;
+
+    for (var i = 0; i < data.length; i++) {
+        table = table + "<tr><td>" + questionNumber + "</td><td>" + data[i].text + "</td></tr>";
+        questionNumber++;
+    }
+
+    table = table + "</tbody></table>";
+    document.getElementById("admin-container").innerHTML = table;    
 }
 
 function viewCreateQuestionPanel() {
@@ -35,23 +43,30 @@ function viewUpdateQuestionPanel() {
         type: "GET",
         contentType: 'application/json; charset=utf-8',
         success: function(resultData) {
-            var table = "<label for=\"comment\">Please select the question to be updated.</label><br/><table id=\"updatable-table\" class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
-            var questionNumber = 1;
-            
-            for (var i = 0; i < resultData.length; i++) {
-                table = table + "<tr onclick=\"showPopup(this);\"><td>" + questionNumber + "</td><td>" + resultData[i].text + "</td></tr>";
-                questionNumber++;
-            }
-
-            table = table + "</tbody></table>";
-            document.getElementById("admin-container").innerHTML = table;
+            localStorage["questions"] = JSON.stringify(resultData);
+            viewUpdateQuestionPanelHelper(resultData);
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert(textStatus + ": " + errorThrown);
+            var data = JSON.parse(localStorage["questions"]);
+            viewUpdateQuestionPanelHelper(data);
         },
 
         timeout: 120000,
     });
+}
+
+function viewUpdateQuestionPanelHelper(data) {
+    var table = "<label for=\"comment\">Please select the question to be updated.</label><br/><table id=\"updatable-table\" class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
+    var questionNumber = 1;
+
+    for (var i = 0; i < data.length; i++) {
+        table = table + "<tr onclick=\"showPopup(this);\"><td>" + questionNumber + "</td><td>" + data[i].text + "</td></tr>";
+        questionNumber++;
+    }
+
+    table = table + "</tbody></table>";
+    document.getElementById("admin-container").innerHTML = table;
 }
 
 function viewDeleteQuestionPanel() {
@@ -60,23 +75,30 @@ function viewDeleteQuestionPanel() {
         type: "GET",
         contentType: 'application/json; charset=utf-8',
         success: function(resultData) {
-            var table = "<label for=\"comment\">Please select the question to be deleted.</label><br/><table class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
-            var questionNumber = 1;
-            
-            for (var i = 0; i < resultData.length; i++) {
-                table = table + "<tr onclick=\"showConfirmDeletePopup(this);\"><td>" + questionNumber + "</td><td>" + resultData[i].text + "</td></tr>";
-                questionNumber++;
-            }
-
-            table = table + "</tbody></table>";
-            document.getElementById("admin-container").innerHTML = table;
+            localStorage["questions"] = JSON.stringify(resultData);
+            viewDeleteQuestionPanelHelper(resultData);
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert(textStatus + ": " + errorThrown);
+            var data = JSON.parse(localStorage["questions"]);
+            viewDeleteQuestionPanelHelper(data);
         },
 
         timeout: 120000,
     });
+}
+
+function viewDeleteQuestionPanelHelper(data) {
+    var table = "<label for=\"comment\">Please select the question to be deleted.</label><br/><table class=\"table table-striped\"><thead><tr><th>Question Number</th><th>Question</th></tr></thead><tbody>";
+    var questionNumber = 1;
+
+    for (var i = 0; i < data.length; i++) {
+        table = table + "<tr onclick=\"showConfirmDeletePopup(this);\"><td>" + questionNumber + "</td><td>" + data[i].text + "</td></tr>";
+        questionNumber++;
+    }
+
+    table = table + "</tbody></table>";
+    document.getElementById("admin-container").innerHTML = table;
 }
 
 function showTextOnlyQuestion(obj) {
@@ -193,7 +215,7 @@ function submitQuestion() {
     
     var data = {"id":11,"options": options,"questionType":answerType,"text":content};
     jQuery.ajax({
-        url: "http://10.40.26.151:8080/SurveyApplication/resources/questions/",
+        url: "http://localhost:8080/SurveyApplication/resources/questions/",
         type: "POST",
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data),
@@ -201,11 +223,14 @@ function submitQuestion() {
             
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert(errorThrown);
+            alert("" + jqXHR.toString() + " " + textStatus + " " + errorThrown);
         },
 
         timeout: 120000,
     });
+    
+    alert("Question Created Successfully.");
+    textArea.innerHTML = "";
 }
 
 function showPopup(obj) {
@@ -232,9 +257,9 @@ function showConfirmDeletePopup(obj) {
                 + "<div class=\"col-sm-offset-2 col-sm-10\"><button type=\"submit\" onclick=\"unloadPopup();\"  class=\"btn btn-primary pull-right\">OK</button></div></div>";
     document.getElementById("technologies-pop-up").innerHTML = question;
     $('#technologies-pop-up').fadeIn("slow");
-    $("#main_container").css({       
-            "opacity": "0.3" 
-    });
+    //$("#main_container").css({       
+      //      "opacity": "0.3" 
+    //});
 
 }
 
