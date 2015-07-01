@@ -1,17 +1,19 @@
+
 function loadBubbles() {
+     
     $(function() {
 	    var bubbles = []; 
 
-		for (var i = 0; i < tags.length; i++) {
-			var tagTitle = tags[i].title;
-			var tagId = tags[i].id;
-            var numberOfPosts = 0;
+		for (var i = 0; i < problemArea.length; i++) {
+			var tagTitle = problemArea[i].title;
+			var problemAreaId = problemArea[i].id;
+                        var numberOfPosts = 0;
 			var xPosition =  Math.floor(Math.random() * 90);
 			var yPosition = Math.floor(Math.random() * 90);
 			
-			for (var j = 0; j < vTag.length; j++) {
-				if (tagId === vTag[j].tagId) {
-				   numberOfPosts =  vTag[j].posts; 
+			for (var j = 0; j < questionsPosts.length; j++) {
+				if (problemAreaId === questionsPosts[j].problemAreaId) {
+				   numberOfPosts =  questionsPosts[j].posts; 
 				}   
 			} 
 			 
@@ -89,8 +91,8 @@ function loadBubbles() {
 		});
     });
     }	
-	function setupHotTopics(technologyName) {
-	    var _title = technologyName;
+	function drawGraph(problemArea) {
+	    var _title = problemArea;
 		
 	    $(function () {
           $('#hot_topics_container').highcharts({
@@ -143,7 +145,7 @@ function loadBubbles() {
 		});
 	}
 
-    function loadPopupBox(technologyName) {
+    function loadPopupBox(problemArea) {
 	    
         // To Load the Popupbox
 		$('#pop-up').fadeIn("slow");
@@ -151,7 +153,7 @@ function loadBubbles() {
 			"opacity": "0.3" 
 		});        
 		
-		setupHotTopics(technologyName);
+		drawGraph(problemArea);
 	}
   	
 	
